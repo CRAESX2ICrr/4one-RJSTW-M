@@ -22,20 +22,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {/* PAGE WRAPPER */}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="relative min-h-screen flex flex-col">
 
-          {/* BACKGROUND */}
-          <div className="fixed inset-0 -z-10 pointer-events-none">
+          {/* Background */}
+          <div className="absolute inset-0 -z-10 pointer-events-none">
             <Background />
           </div>
 
           <Header />
 
-          <main className="flex-1 relative z-10">
+          <main className="flex-1 relative">
             {children}
           </main>
 
@@ -46,3 +43,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+

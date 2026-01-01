@@ -42,7 +42,8 @@ export default function Header() {
   }, [pathname]);
 
   return (
-    <header className="w-full bg-gradient-to-r from-zinc-900 via-black to-zinc-900 border-b border-white/10">
+      <header className="fixed top-0 w-full z-50 bg-gradient-to-r from-zinc-900 via-black to-zinc-900 border-b border-white/10">
+
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 text-white">
 
         {/* Left: Logo */}
