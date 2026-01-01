@@ -2,7 +2,8 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-20 bg-gradient-to-r from-zinc-900 via-black to-zinc-900 text-gray-300">
+    <footer className="bg-gradient-to-r from-zinc-900 via-black to-zinc-900 text-gray-300">
+
       
       {/* Top divider */}
       <div className="h-px w-full bg-white/10" />

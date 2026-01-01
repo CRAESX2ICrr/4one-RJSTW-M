@@ -23,14 +23,25 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col relative`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Background />
-        <Header />
-        <main className="flex-1 relative z-10">
-          {children}
-        </main>
-        <Footer />
+        {/* PAGE WRAPPER */}
+        <div className="relative min-h-screen flex flex-col">
+
+          {/* BACKGROUND */}
+          <div className="fixed inset-0 -z-10 pointer-events-none">
+            <Background />
+          </div>
+
+          <Header />
+
+          <main className="flex-1 relative z-10">
+            {children}
+          </main>
+
+          <Footer />
+
+        </div>
       </body>
     </html>
   );

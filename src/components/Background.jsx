@@ -4,7 +4,7 @@ import LightPillar from "@/components/LightPillar";
 
 export default function Background() {
   return (
-    <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none overflow-hidden isolate">
       <LightPillar
         topColor="#5227FF"
         bottomColor="#FF9FFC"
