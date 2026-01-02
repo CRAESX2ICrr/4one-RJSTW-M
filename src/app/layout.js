@@ -26,9 +26,9 @@ export default function RootLayout({ children }) {
         <div className="relative min-h-screen flex flex-col">
 
           {/* Background */}
-          <div className="absolute inset-0 -z-10 pointer-events-none">
+        {/*  <div className="absolute inset-0 -z-10 pointer-events-none">
             <Background />
-          </div>
+          </div> */}
 
           <Header />
 
