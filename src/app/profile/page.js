@@ -1,223 +1,121 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useState } from "react"
 import {
-  MapPin,
-  CreditCard,
-  Package,
-  Bell,
-  LogOut,
-} from "lucide-react";
+	User,
+	Lock,
+	MapPin,
+	CreditCard,
+	Package,
+	Bell,
+	LogOut
+} from "lucide-react"
+
+import Account from "@/components/profile/Account"
+import Security from "@/components/profile/Security"
+import Orders from "@/components/profile/Orders"
+import Addresses from "@/components/profile/Addresses"
+import Payments from "@/components/profile/Payments"
+import Notifications from "@/components/profile/Notifications"
+
 
 export default function ProfilePage() {
-  const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [displayName, setDisplayName] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+	const [activeSection, setActiveSection] = useState("account")
 
-  useEffect(() => {
-    const loadProfile = async () => {
-      const res = await fetch("/api/auth/me", {
-        credentials: "include",
-        cache: "no-store",
-      });
+	const user = {
+		email: "user@example.com",
+		displayName: "John Doe"
+	}
 
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data);
-        setDisplayName(data.displayName || "");
-      }
+	const baseItem =
+		"w-full flex items-center gap-4 px-4 py-3 rounded-xl text-base text-left"
+	const inactive = "opacity-80 hover:bg-white/5"
+	const active = "bg-white/10"
 
-      setLoading(false);
-    };
+	return (
+		<main className="text-white py-32">
+			<div className="max-w-[1400px] mx-auto px-10">
+				<div className="grid grid-cols-12 gap-10">
 
-    loadProfile();
-  }, []);
+					{/* LEFT CARD */}
+					<aside className="col-span-4 rounded-3xl bg-black/70 p-8 space-y-8">
 
-  const handleSave = async () => {
-    setSaving(true);
-    await fetch("/api/profile/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ displayName }),
-    });
-    setSaving(false);
-  };
+						<div>
+							<h1 className="text-2xl font-semibold">Account</h1>
+							<p className="opacity-60">{user.email}</p>
+						</div>
 
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-    router.push("/login");
-    router.refresh();
-  };
+<div className="space-y-2">
+	<button
+		onClick={() => setActiveSection("account")}
+		className={`${baseItem} ${activeSection === "account" ? active : inactive}`}
+	>
+		<User size={20} />
+		Account
+	</button>
 
-  if (loading) {
-    return <div style={{ padding: "2rem", color: "white" }}>Loading…</div>;
-  }
+	<button
+		onClick={() => setActiveSection("security")}
+		className={`${baseItem} ${activeSection === "security" ? active : inactive}`}
+	>
+		<Lock size={20} />
+		Security
+	</button>
 
-  if (!user) {
-    return <div style={{ padding: "2rem", color: "white" }}>Not logged in</div>;
-  }
+	<button
+		onClick={() => setActiveSection("orders")}
+		className={`${baseItem} ${activeSection === "orders" ? active : inactive}`}
+	>
+		<Package size={20} />
+		Orders
+	</button>
 
-  return (
-    <main
-      style={{
-        paddingTop: "4rem",
-        paddingBottom: "4rem",
-        display: "flex",
-        justifyContent: "center",
-        color: "white",
-      }}
-    >
-      {/* BLACK 80 BOX — NO SCROLL */}
-      <div
-        style={{
-          width: "40%",
-          height: "900px", // ⬅️ increased height
-          borderRadius: "24px",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          padding: "2.5rem",
-        }}
-      >
-        {/* Header */}
-        <h1 style={{ fontSize: "1.875rem", fontWeight: 600, marginBottom: "2rem" }}>
-          Profile
-        </h1>
+	<button
+		onClick={() => setActiveSection("addresses")}
+		className={`${baseItem} ${activeSection === "addresses" ? active : inactive}`}
+	>
+		<MapPin size={20} />
+		Addresses
+	</button>
 
-        {/* Account Info */}
-<section style={{ marginBottom: "3rem" }}>
-  <h2 style={{ fontSize: "1.125rem", fontWeight: 600, marginBottom: "1rem" }}>
-    Account Information
-  </h2>
+	<button
+		onClick={() => setActiveSection("payments")}
+		className={`${baseItem} ${activeSection === "payments" ? active : inactive}`}
+	>
+		<CreditCard size={20} />
+		Payments
+	</button>
 
-  {/* FIXED-WIDTH FORM COLUMN */}
-  <div
-    style={{
-      maxWidth: "420px",   // 👈 change this width safely
-    }}
-  >
-    <div style={{ marginBottom: "1rem" }}>
-      <label style={{ fontSize: "0.875rem", opacity: 0.7 }}>
-        Display Name
-      </label>
-      <input
-        value={displayName}
-        onChange={(e) => setDisplayName(e.target.value)}
-        style={{
-          width: "100%",
-          marginTop: "0.25rem",
-          padding: "0.5rem 0.75rem",
-          borderRadius: "8px",
-          backgroundColor: "rgba(0,0,0,0.6)",
-          border: "1px solid rgba(255,255,255,0.15)",
-          color: "white",
-        }}
-      />
-    </div>
+	<button
+		onClick={() => setActiveSection("notifications")}
+		className={`${baseItem} ${activeSection === "notifications" ? active : inactive}`}
+	>
+		<Bell size={20} />
+		Notifications
+	</button>
+</div>
 
-    <div style={{ marginBottom: "1rem" }}>
-      <label style={{ fontSize: "0.875rem", opacity: 0.7 }}>
-        Email
-      </label>
-      <input
-        value={user.email}
-        readOnly
-        style={{
-          width: "100%",
-          marginTop: "0.25rem",
-          padding: "0.5rem 0.75rem",
-          borderRadius: "8px",
-          backgroundColor: "rgba(0,0,0,0.6)",
-          border: "1px solid rgba(255,255,255,0.15)",
-          color: "white",
-          opacity: 0.7,
-        }}
-      />
-    </div>
 
-    <button
-      onClick={handleSave}
-      disabled={saving}
-      style={{
-        marginTop: "1rem",
-        padding: "0.5rem 1rem",
-        borderRadius: "8px",
-        backgroundColor: "white",
-        color: "black",
-        fontWeight: 500,
-        cursor: "pointer",
-        opacity: saving ? 0.6 : 1,
-      }}
-    >
-      {saving ? "Saving..." : "Save Changes"}
-    </button>
-  </div>
+						<button className="flex items-center gap-3 text-red-400 text-base hover:text-red-300">
+							<LogOut size={18} />
+							Log out
+						</button>
+					</aside>
+
+					{/* RIGHT CARD */}
+<section className="col-span-8 rounded-3xl bg-black/70 p-10 space-y-14">
+	{activeSection === "account" && <Account user={user} />}
+	{activeSection === "security" && <Security />}
+	{activeSection === "orders" && <Orders />}
+	{activeSection === "addresses" && <Addresses />}
+	{activeSection === "payments" && <Payments />}
+	{activeSection === "notifications" && <Notifications />}
 </section>
 
 
-        {/* Settings */}
-        <section style={{ marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "1.125rem", fontWeight: 600, marginBottom: "1rem" }}>
-            Settings
-          </h2>
 
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            <ProfileLink href="/profile/address" icon={<MapPin size={18} />} label="Addresses" />
-            <ProfileLink href="/profile/payments" icon={<CreditCard size={18} />} label="Payment Options" />
-            <ProfileLink href="/profile/orders" icon={<Package size={18} />} label="Orders & Returns" />
-            <ProfileLink href="/profile/notifications" icon={<Bell size={18} />} label="Notifications" />
-          </ul>
-        </section>
-
-        {/* Logout */}
-        <section style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: "1.5rem" }}>
-          <button
-            onClick={handleLogout}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              background: "none",
-              border: "none",
-              color: "#f87171",
-              cursor: "pointer",
-            }}
-          >
-            <LogOut size={18} />
-            Log out
-          </button>
-        </section>
-      </div>
-    </main>
-  );
-}
-
-/* Helper */
-function ProfileLink({ href, icon, label }) {
-  return (
-    <li style={{ marginBottom: "0.75rem" }}>
-      <Link
-        href={href}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.75rem",
-          padding: "0.5rem 0.75rem",
-          borderRadius: "8px",
-          color: "white",
-          textDecoration: "none",
-          opacity: 0.85,
-        }}
-      >
-        {icon}
-        <span>{label}</span>
-      </Link>
-    </li>
-  );
+				</div>
+			</div>
+		</main>
+	)
 }

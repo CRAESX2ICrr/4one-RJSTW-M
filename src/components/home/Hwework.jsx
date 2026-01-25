@@ -28,7 +28,7 @@ const steps = [
 export default function Hwework() {
   return (
 <section
-  className="relative w-full mt-[250px] py-20 bg-cover bg-center"
+  className="relative w-full mt-[100px] py-20 bg-cover bg-center"
   style={{
     backgroundImage:
       "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1920&q=80')",
