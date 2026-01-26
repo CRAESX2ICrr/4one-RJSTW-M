@@ -1,50 +1,89 @@
 import mongoose from "mongoose"
 
 const ProductSchema = new mongoose.Schema(
-	{
-		category: String, // phones
-		brand: String,
-		brandSlug: String,
+  {
+    category: {
+      type: String,
+      required: true
+    },
 
-		family: String,
-		familySlug: String,
+    brand: {
+      type: String,
+      required: true
+    },
 
-		model: String,
-		modelSlug: String,
+    brandSlug: {
+      type: String,
+      required: true,
+      index: true
+    },
 
-		description: String,
+    model: {
+      type: String,
+      required: true
+    },
 
-		image: String,
+    modelSlug: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true
+    },
 
-		specs: {
-			chip: String,
-			display: String,
-			camera: String,
-			battery: String,
-			ram: String,
-			os: String
-		},
+    description: {
+      type: String,
+      required: true
+    },
 
-		options: {
-			color: [
-				{
-					name: String,
-					priceDelta: { type: Number, default: 0 }
-				}
-			],
-			storage: [String]
-		},
+    specs: {
+      chip: String,
+      display: String,
+      camera: String,
+      battery: String,
+      ram: String,
+      os: String
+    },
 
-		pricing: {
-			currency: { type: String, default: "USD" },
-			byStorage: {
-				type: Map,
-				of: Number
-			}
-		}
-	},
-	{ timestamps: true }
+    options: {
+      color: [
+        {
+          name: {
+            type: String,
+            required: true
+          },
+          priceDelta: {
+            type: Number,
+            default: 0
+          }
+        }
+      ],
+
+      storage: {
+        type: [String],
+        required: true
+      }
+    },
+
+    pricing: {
+      currency: {
+        type: String,
+        enum: ["USD"],
+        default: "USD"
+      },
+
+      byStorage: {
+        type: Map,
+        of: Number,
+        required: true
+      }
+    }
+  },
+  {
+    timestamps: true,
+    collection: "details"
+  }
 )
 
+// Prevent model overwrite in dev / hot reload
 export default mongoose.models.Product ||
-	mongoose.model("Product", ProductSchema)
+  mongoose.model("Product", ProductSchema)
